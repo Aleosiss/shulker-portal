@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "shulker-portal",
+  "version": "${version}",
+  "name": "Shulker Portal",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/shulker-portal/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+      "com.aleosiss.debug.shulkerportal.client.ShulkerPortalClient"
+    ],
+    "main": [
+      "com.aleosiss.debug.shulkerportal.ShulkerPortal"
+    ]
+  },
+  "mixins": [
+    "shulker-portal.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
