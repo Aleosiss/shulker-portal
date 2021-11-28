@@ -26,6 +26,11 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
     - name: Build with Gradle
       run: gradle build
+    - name: Find correct JAR
+      id: findjar
+      run: |
+        output="$(find build/libs/ ! -name "*-dev.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
+        echo "::set-output name=jarname::$output"
     - name: Save build artifacts in the action
       uses: actions/upload-artifact@v2
       with:
