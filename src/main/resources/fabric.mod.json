@@ -10,11 +10,8 @@
   "icon": "assets/shulker-portal/icon.png",
   "environment": "server",
   "entrypoints": {
-    "client": [
-      "com.aleosiss.debug.shulkerportal.client.ShulkerPortalClient"
-    ],
     "main": [
-      "com.aleosiss.debug.shulkerportal.ShulkerPortal"
+      "com.aleosiss.shulkerportal.ShulkerPortal"
     ]
   },
   "mixins": [

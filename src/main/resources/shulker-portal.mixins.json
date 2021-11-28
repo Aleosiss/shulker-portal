@@ -1,14 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.aleosiss.debug.shulkerportal.mixin",
+  "package": "com.aleosiss.shulkerportal.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": [
-    "nether_portal_coordinate_logger.EntityMixin"
-  ],
   "client": [
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "nether_portal_coordinate_logger.EntityMixin"
+  ]
 }
