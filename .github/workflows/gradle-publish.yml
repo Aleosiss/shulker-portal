@@ -24,14 +24,19 @@ jobs:
         distribution: 'adopt'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
-
     - name: Build with Gradle
       run: gradle build
-
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      run: gradle publish
+    - name: Save build artifacts in the action
+      uses: actions/upload-artifact@v2
+      with:
+        name: Artifacts
+        path: build/libs
+    - name: Upload to the Github release
+      uses: actions/upload-release-asset@v1
       env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: build/libs/${{ steps.findjar.outputs.jarname }}
+        asset_name: ${{ steps.findjar.outputs.jarname }}
+        asset_content_type: application/java-archive
