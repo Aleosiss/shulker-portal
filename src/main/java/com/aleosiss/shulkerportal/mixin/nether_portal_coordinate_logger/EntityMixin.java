@@ -48,7 +48,7 @@ public abstract class EntityMixin {
 	@Shadow public final double getX() { return 0;};
 	@Shadow public final double getY() { return 0;};
 	@Shadow public final double getZ() { return 0;};
-	@Shadow protected Optional<BlockLocating.Rectangle> getPortalRect(ServerWorld destWorld, BlockPos destPos, boolean destIsNether) { return null; };
+	@Shadow protected Optional<BlockLocating.Rectangle> getPortalRect(ServerWorld destWorld, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder) { return null; };
 	@Shadow protected Vec3d positionInPortal(Direction.Axis portalAxis, BlockLocating.Rectangle portalRect) { return null; };
 	@Shadow public EntityDimensions getDimensions(EntityPose pose) { return null; };
 	@Shadow public EntityPose getPose() { return null; };
@@ -89,7 +89,9 @@ public abstract class EntityMixin {
 			if (this.world.getRegistryKey() != World.NETHER && !goingToNether) {
 				cir.setReturnValue(null);
 			} else {
-				BlockPos otherSideBlockPos = calculateOtherSidePortalBlockPos(destination);
+				WorldBorder worldBorder = destination.getWorldBorder();
+				double d = DimensionType.getCoordinateScaleFactor(this.world.getDimension(), destination.getDimension());// 2548
+				BlockPos otherSideBlockPos = worldBorder.clamp(this.getX() * d, this.getY(), this.getZ() * d);
 				boolean isInNetherPortal = Blocks.NETHER_PORTAL.equals(this.world.getBlockState(blockPos).getBlock());
 				if(!isInNetherPortal && !goingToNether && isShulker) {
 					String message = String.format("Shulker[%s] is not teleporting from within a nether portal...? Logging teleport from [%s]!", id, pos);
@@ -97,15 +99,14 @@ public abstract class EntityMixin {
 					logger.error(message);
 				}
 
-				TeleportTarget target = this.getPortalRect(destination, otherSideBlockPos, goingToNether).map((rect) -> {
+				TeleportTarget target = this.getPortalRect(destination, otherSideBlockPos, goingToNether, worldBorder).map((rect) -> {
 					BlockState blockState = this.world.getBlockState(this.lastNetherPortalPosition);
 					Direction.Axis axis;
 					Vec3d vec3d;
 					if (blockState.contains(Properties.HORIZONTAL_AXIS)) {
 						axis = blockState.get(Properties.HORIZONTAL_AXIS);
-						BlockLocating.Rectangle rectangle = BlockLocating.getLargestRectangle(this.lastNetherPortalPosition, axis, 21, Direction.Axis.Y, 21, (blockPos3) -> {
-							return this.world.getBlockState(blockPos3) == blockState;
-						});
+						BlockLocating.Rectangle rectangle = BlockLocating.getLargestRectangle(this.lastNetherPortalPosition, axis, 21, Direction.Axis.Y, 21,
+								(blockPos3) -> this.world.getBlockState(blockPos3) == blockState);
 						vec3d = this.positionInPortal(axis, rectangle);
 					} else {
 						axis = Direction.Axis.X;
@@ -132,18 +133,6 @@ public abstract class EntityMixin {
 			TeleportTarget target = new TeleportTarget(new Vec3d((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D), this.getVelocity(), this.getYaw(), this.getPitch());
 			cir.setReturnValue(target);
 		}
-	}
-
-	@NotNull
-	private BlockPos calculateOtherSidePortalBlockPos(ServerWorld destination) {
-		// get the world border and make sure we don't go outside of it
-		WorldBorder worldBorder = destination.getWorldBorder();
-		double d = Math.max(-2.9999872E7D, worldBorder.getBoundWest() + 16.0D);
-		double e = Math.max(-2.9999872E7D, worldBorder.getBoundNorth() + 16.0D);
-		double f = Math.min(2.9999872E7D, worldBorder.getBoundEast() - 16.0D);
-		double g = Math.min(2.9999872E7D, worldBorder.getBoundSouth() - 16.0D);
-		double h = DimensionType.getCoordinateScaleFactor(this.world.getDimension(), destination.getDimension());
-		return new BlockPos(MathHelper.clamp(this.getX() * h, d, f), this.getY(), MathHelper.clamp(this.getZ() * h, e, g));
 	}
 
 	@Inject(method = "baseTick", at = @At("HEAD"))
