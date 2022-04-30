@@ -1,6 +1,6 @@
 # shulker-portal
 
-Some features related to Shulkers going through nether portals.
+Initially just some features related to Shulkers going through nether portals, now featuring arbitrary other modifications that I'm too lazy to make another mod for.
 
 Use along side base [fabric-carpet](https://github.com/gnembon/fabric-carpet) mod for the same minecraft version.
 
@@ -22,7 +22,7 @@ Enables some debugging features when Shulkers calculate their nether portal tran
 * Categories: `ale`  
 
 ## enable117RaiderDiscoveryMechanic
-Reverts raid recruitment mechanics back to their 1.17 versions, allowing Raid farms built in those versions to continue working.
+Reverts raid recruitment mechanics back to their 1.17 versions, allowing Raid farms built in those versions to continue working. A copy-paste of code written by Fallen_Breath.
 * Type: `boolean`
 * Default value: `false`
 * Required options: `true`, `false`
