@@ -20,3 +20,10 @@ Enables some debugging features when Shulkers calculate their nether portal tran
 * Default value: `false`  
 * Required options: `true`, `false`  
 * Categories: `ale`  
+
+## enable117RaiderDiscoveryMechanic
+Reverts raid recruitment mechanics back to their 1.17 versions, allowing Raid farms built in those versions to continue working.
+* Type: `boolean`
+* Default value: `false`
+* Required options: `true`, `false`
+* Categories: `CREATIVE`, `ale`
