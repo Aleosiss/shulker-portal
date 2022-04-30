@@ -21,4 +21,10 @@ public class ShulkerPortalCarpetSettings {
 			category = { "ale" }
 	)
 	public static boolean enableShulkerPortalDebugging = false;
+
+	@Rule(
+			desc = "Enable 1.17 Raid mechanics",
+			category = { RuleCategory.CREATIVE, "ale"}
+	)
+	public static boolean enable117RaiderDiscoveryMechanic = false;
 }

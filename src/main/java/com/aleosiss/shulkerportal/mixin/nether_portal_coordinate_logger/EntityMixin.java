@@ -2,6 +2,7 @@ package com.aleosiss.shulkerportal.mixin.nether_portal_coordinate_logger;
 
 import com.aleosiss.shulkerportal.ShulkerPortal;
 import com.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings;
+import com.aleosiss.shulkerportal.service.ShulkerPortalService;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -12,7 +13,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.Heightmap;
@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.dimension.AreaHelper;
 import net.minecraft.world.dimension.DimensionType;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
@@ -81,6 +80,8 @@ public abstract class EntityMixin {
 			return;
 		}
 
+		var shulkerPortal = ShulkerPortalService.getInstance();
+
 		boolean goingToOverworldFromEnd = this.world.getRegistryKey() == World.END && destination.getRegistryKey() == World.OVERWORLD;
 		boolean goingToEnd = destination.getRegistryKey() == World.END;
 
@@ -115,7 +116,7 @@ public abstract class EntityMixin {
 
 					TeleportTarget teleportTarget = AreaHelper.getNetherTeleportTarget(destination, rect, axis, vec3d, this.getDimensions(this.getPose()), this.getVelocity(), this.getYaw(), this.getPitch());
 					if(!goingToNether && isShulker) {
-						ShulkerPortal.processShulkerTeleport(this.id, pos, teleportTarget.position, errors);
+						shulkerPortal.processShulkerTeleport(this.id, pos, teleportTarget.position, errors);
 					}
 
 					return teleportTarget;

@@ -8,7 +8,7 @@
   "contact": {},
   "license": "MIT",
   "icon": "assets/shulker-portal/icon.png",
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
     "main": [
       "com.aleosiss.shulkerportal.ShulkerPortal"
