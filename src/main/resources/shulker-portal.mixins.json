@@ -2,13 +2,14 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.aleosiss.shulkerportal.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "client": [
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "nether_portal_coordinate_logger.EntityMixin"
+    "nether_portal_coordinate_logger.EntityMixin",
+    "raid_recruitment.MoveToRaidCenterGoalMixin"
   ]
 }
