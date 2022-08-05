@@ -6,33 +6,30 @@ import org.slf4j.LoggerFactory
 import java.util.function.Function
 import java.util.stream.Collectors
 
-class ShulkerPortalService {
-    companion object {
-        val logger: Logger = LoggerFactory.getLogger(ShulkerPortalService::class.java)
-        lateinit var INSTANCE: ShulkerPortalService
-
-        private fun getAverageNetherPos(teleports: List<Teleport>): Vec3d {
-            return getAvgPos(teleports.stream().map { t: Teleport -> t.netherPos }.collect(Collectors.toList()))
-        }
-
-        private fun getAverageOverworldPos(teleports: List<Teleport>): Vec3d {
-            return getAvgPos(teleports.stream().map { t: Teleport -> t.overworldPos }.collect(Collectors.toList()))
-        }
-
-        private fun getAvgPos(positions: List<Vec3d>): Vec3d {
-            val num = positions.size
-            var output = Vec3d(0.0, 0.0, 0.0)
-            for (pos in positions) {
-                output = output.add(pos)
-            }
-            return output.multiply(1.0 / num)
-        }
-    }
+object ShulkerPortalService {
+    private val logger: Logger = LoggerFactory.getLogger(ShulkerPortalService::class.java)
 
     data class Teleport(val id: Int, val netherPos: Vec3d, val overworldPos: Vec3d)
     var teleports: MutableList<Teleport> = ArrayList()
     val badTeleports: MutableList<Teleport> = ArrayList()
     val errorMessages: MutableList<String> = ArrayList()
+
+    private fun getAverageNetherPos(teleports: List<Teleport>): Vec3d {
+        return getAvgPos(teleports.stream().map { t: Teleport -> t.netherPos }.collect(Collectors.toList()))
+    }
+
+    private fun getAverageOverworldPos(teleports: List<Teleport>): Vec3d {
+        return getAvgPos(teleports.stream().map { t: Teleport -> t.overworldPos }.collect(Collectors.toList()))
+    }
+
+    private fun getAvgPos(positions: List<Vec3d>): Vec3d {
+        val num = positions.size
+        var output = Vec3d(0.0, 0.0, 0.0)
+        for (pos in positions) {
+            output = output.add(pos)
+        }
+        return output.multiply(1.0 / num)
+    }
 
     fun processShulkerTeleport(entityMixin: Int, netherPos: Vec3d, overworldPos: Vec3d, errors: List<String>?) {
         logger.info(String.format("Shulker[%s] was teleported from %s in the nether to %s in the overworld!", entityMixin, netherPos, overworldPos))

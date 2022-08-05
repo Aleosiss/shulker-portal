@@ -1,0 +1,6 @@
+{
+  "shulker-portal.rule.commandShulker.desc" : "Enables /ale command to view Shulker portal debugging info",
+  "shulker-portal.rule.enableShulkerPortalPositioningFix.desc" : "Enable shulker positioning fix",
+  "shulker-portal.rule.enableShulkerPortalDebugging.desc" : "Enable shulker positioning debugging",
+  "shulker-portal.rule.enable117RaiderDiscoveryMechanic.desc" : "Enable 1.17 Raid mechanics"
+}

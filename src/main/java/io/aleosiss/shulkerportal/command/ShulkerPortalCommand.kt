@@ -1,6 +1,6 @@
 package io.aleosiss.shulkerportal.command
 
-import carpet.settings.SettingsManager
+import carpet.utils.CommandHelper
 import carpet.utils.Messenger
 import io.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings
 import io.aleosiss.shulkerportal.service.ShulkerPortalService
@@ -17,7 +17,7 @@ import java.util.function.Consumer
 object ShulkerPortalCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         val argumentBuilder = CommandManager.literal("ale")
-                .requires { player: ServerCommandSource? -> SettingsManager.canUseCommand(player, ShulkerPortalCarpetSettings.commandShulker) }
+                .requires { player: ServerCommandSource? -> CommandHelper.canUseCommand(player, ShulkerPortalCarpetSettings.commandShulker) }
                 .then(makeGetCommand())
                 .then(makeClearCommand())
                 .then(makeAddCommand())
@@ -31,7 +31,7 @@ object ShulkerPortalCommand {
 
     @Suppress("UNUSED_PARAMETER")
     private fun addDebugBadShulkerTeleport(serverCommandSourceCommandContext: CommandContext<ServerCommandSource>): Int {
-        ShulkerPortalService.INSTANCE.badTeleports.add(Teleport(1, Vec3d(0.0, 0.0, 0.0), Vec3d(0.0, 0.0, 0.0)))
+        ShulkerPortalService.badTeleports.add(Teleport(1, Vec3d(0.0, 0.0, 0.0), Vec3d(0.0, 0.0, 0.0)))
         return 1
     }
 
@@ -43,13 +43,13 @@ object ShulkerPortalCommand {
 
     @Suppress("UNUSED_PARAMETER")
     private fun clearErrors(serverCommandSourceCommandContext: CommandContext<ServerCommandSource>): Int {
-        ShulkerPortalService.INSTANCE.errorMessages.clear()
+        ShulkerPortalService.errorMessages.clear()
         return 1
     }
 
     @Suppress("UNUSED_PARAMETER")
     private fun clearBadShulkerTeleports(serverCommandSourceCommandContext: CommandContext<ServerCommandSource>): Int {
-        ShulkerPortalService.INSTANCE.badTeleports.clear()
+        ShulkerPortalService.badTeleports.clear()
         return 1
     }
 
@@ -63,10 +63,10 @@ object ShulkerPortalCommand {
     @Throws(CommandSyntaxException::class)
     private fun getErrors(serverCommandSourceCommandContext: CommandContext<ServerCommandSource>): Int {
         val player = serverCommandSourceCommandContext.source.player
-        if (ShulkerPortalService.INSTANCE.errorMessages.size < 1) {
+        if (ShulkerPortalService.errorMessages.size < 1) {
             Messenger.m(player, "l No errors logged.")
         } else {
-            ShulkerPortalService.INSTANCE.errorMessages.forEach(Consumer { str: String -> Messenger.m(player, "w $str") })
+            ShulkerPortalService.errorMessages.forEach(Consumer { str: String -> Messenger.m(player, "w $str") })
         }
         return 1
     }
@@ -74,12 +74,12 @@ object ShulkerPortalCommand {
     @Throws(CommandSyntaxException::class)
     private fun getAllShulkerTeleports(context: CommandContext<ServerCommandSource>): Int {
         val player = context.source.player
-        if (ShulkerPortalService.INSTANCE.teleports.isEmpty()) {
+        if (ShulkerPortalService.teleports.isEmpty()) {
             Messenger.m(player, "w No teleports yet!")
             return 1
         }
         Messenger.m(player, "w All teleports:")
-        ShulkerPortalService.INSTANCE.teleports.forEach(Consumer { tp: Teleport -> Messenger.m(player, String.format("w Shulker[%s]: Nether Origin: [%s] | Overworld Dest: [%s]", tp.id, tp.netherPos, tp.overworldPos)) })
+        ShulkerPortalService.teleports.forEach(Consumer { tp: Teleport -> Messenger.m(player, String.format("w Shulker[%s]: Nether Origin: [%s] | Overworld Dest: [%s]", tp.id, tp.netherPos, tp.overworldPos)) })
         return 1
     }
 
@@ -92,12 +92,13 @@ object ShulkerPortalCommand {
     @Throws(CommandSyntaxException::class)
     private fun getBadShulkerTeleports(context: CommandContext<ServerCommandSource>): Int {
         val player = context.source.player
-        if (ShulkerPortalService.INSTANCE.badTeleports.isEmpty()) {
+        if (ShulkerPortalService.badTeleports.isEmpty()) {
             Messenger.m(player, "l No bad teleports yet!")
             return 1
         }
+
         Messenger.m(player, "w All bad teleports:")
-        ShulkerPortalService.INSTANCE.badTeleports.forEach(Consumer { tp: Teleport -> Messenger.m(player, String.format("w Shulker[%s]: Nether Origin: [%s] | Overworld Dest: [%s]", tp.id, tp.netherPos, tp.overworldPos)) })
+        ShulkerPortalService.badTeleports.forEach(Consumer { tp: Teleport -> Messenger.m(player, String.format("w Shulker[%s]: Nether Origin: [%s] | Overworld Dest: [%s]", tp.id, tp.netherPos, tp.overworldPos)) })
         return 1
     }
 }
