@@ -4,6 +4,7 @@ import carpet.settings.Rule
 import carpet.settings.RuleCategory
 
 object ShulkerPortalCarpetSettings {
+    @JvmField
     @Rule(desc = "Enables /ale command to view Shulker portal debugging info", category = [RuleCategory.COMMAND])
     var commandShulker: String = "ops"
 

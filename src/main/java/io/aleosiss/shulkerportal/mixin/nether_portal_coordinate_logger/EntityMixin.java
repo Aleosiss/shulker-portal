@@ -56,7 +56,7 @@ public abstract class EntityMixin {
 	@Shadow public float getPitch() {return 0;};
 
 	@SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
-	@Inject(method = "tickNetherPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;getServer()Lnet/minecraft/server/MinecraftServer;"))
+	@Inject(method = "tickPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;getServer()Lnet/minecraft/server/MinecraftServer;"))
 	private void netherPortalTickMixin(CallbackInfo ci) {
 		if(!ShulkerPortalCarpetSettings.enableShulkerPortalPositioningFix) {
 			return;
