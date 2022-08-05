@@ -1,8 +1,8 @@
-package com.aleosiss.shulkerportal.mixin.nether_portal_coordinate_logger;
+package io.aleosiss.shulkerportal.mixin.nether_portal_coordinate_logger;
 
-import com.aleosiss.shulkerportal.ShulkerPortal;
-import com.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings;
-import com.aleosiss.shulkerportal.service.ShulkerPortalService;
+import io.aleosiss.shulkerportal.ShulkerPortal;
+import io.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings;
+import io.aleosiss.shulkerportal.service.ShulkerPortalService;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -55,6 +55,7 @@ public abstract class EntityMixin {
 	@Shadow public float getYaw() {return 0;};
 	@Shadow public float getPitch() {return 0;};
 
+	@SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
 	@Inject(method = "tickNetherPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;getServer()Lnet/minecraft/server/MinecraftServer;"))
 	private void netherPortalTickMixin(CallbackInfo ci) {
 		if(!ShulkerPortalCarpetSettings.enableShulkerPortalPositioningFix) {
@@ -68,6 +69,7 @@ public abstract class EntityMixin {
 		}
 	}
 
+	@SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
 	@Inject(method = "getTeleportTarget", at = @At("HEAD"), cancellable = true)
 	private void teleportMixin(ServerWorld destination, CallbackInfoReturnable<TeleportTarget> cir) {
 		if(!ShulkerPortalCarpetSettings.enableShulkerPortalDebugging) {
@@ -80,7 +82,7 @@ public abstract class EntityMixin {
 			return;
 		}
 
-		var shulkerPortal = ShulkerPortalService.getInstance();
+		ShulkerPortalService shulkerPortal = ShulkerPortalService.INSTANCE;
 
 		boolean goingToOverworldFromEnd = this.world.getRegistryKey() == World.END && destination.getRegistryKey() == World.OVERWORLD;
 		boolean goingToEnd = destination.getRegistryKey() == World.END;
@@ -131,7 +133,7 @@ public abstract class EntityMixin {
 				blockPos = destination.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, destination.getSpawnPos());
 			}
 
-			TeleportTarget target = new TeleportTarget(new Vec3d((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D), this.getVelocity(), this.getYaw(), this.getPitch());
+			TeleportTarget target = new TeleportTarget(new Vec3d((double)blockPos.getX() + 0.5D, blockPos.getY(), (double)blockPos.getZ() + 0.5D), this.getVelocity(), this.getYaw(), this.getPitch());
 			cir.setReturnValue(target);
 		}
 	}

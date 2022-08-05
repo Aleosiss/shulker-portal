@@ -1,6 +1,7 @@
-package com.aleosiss.shulkerportal.mixin.raid_recruitment;
+package io.aleosiss.shulkerportal.mixin.raid_recruitment;
 
-import com.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings;
+import io.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings;
+import io.aleosiss.shulkerportal.carpet.ShulkerPortalCarpetSettings;
 import net.minecraft.entity.ai.goal.MoveToRaidCenterGoal;
 import net.minecraft.entity.raid.RaiderEntity;
 import org.spongepowered.asm.mixin.Final;

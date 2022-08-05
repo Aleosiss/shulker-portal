@@ -11,7 +11,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.aleosiss.shulkerportal.ShulkerPortal"
+      "io.aleosiss.shulkerportal.ShulkerPortal"
     ]
   },
   "mixins": [
