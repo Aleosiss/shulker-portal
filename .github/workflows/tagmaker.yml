@@ -16,7 +16,7 @@ jobs:
         uses: anothrNick/github-tag-action@1.36.0
         env:
           # have to use a personal access token here in order to trigger the release workflow
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.SHULKER_PORTAL_WORKFLOW_TOKEN }}"
           WITH_V: true
           DEFAULT_BUMP: patch
           RELEASE_BRANCHES: main
