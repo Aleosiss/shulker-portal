@@ -19,8 +19,8 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.dimension.AreaHelper;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.dimension.NetherPortal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
@@ -116,7 +116,7 @@ public abstract class EntityMixin {
 						vec3d = new Vec3d(0.5D, 0.0D, 0.0D);
 					}
 
-					TeleportTarget teleportTarget = AreaHelper.getNetherTeleportTarget(destination, rect, axis, vec3d, this.getDimensions(this.getPose()), this.getVelocity(), this.getYaw(), this.getPitch());
+					TeleportTarget teleportTarget = NetherPortal.getNetherTeleportTarget(destination, rect, axis, vec3d, (Entity) (Object) this, this.getVelocity(), this.getYaw(), this.getPitch());
 					if(!goingToNether && isShulker) {
 						shulkerPortal.processShulkerTeleport(this.id, pos, teleportTarget.position, errors);
 					}

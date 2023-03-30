@@ -71,6 +71,7 @@ object ShulkerPortalCommand {
         return 1
     }
 
+    @Suppress("SameReturnValue")
     @Throws(CommandSyntaxException::class)
     private fun getAllShulkerTeleports(context: CommandContext<ServerCommandSource>): Int {
         val player = context.source.player
@@ -88,7 +89,7 @@ object ShulkerPortalCommand {
         return 1
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "SameReturnValue")
     @Throws(CommandSyntaxException::class)
     private fun getBadShulkerTeleports(context: CommandContext<ServerCommandSource>): Int {
         val player = context.source.player

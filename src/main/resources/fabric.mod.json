@@ -3,7 +3,7 @@
   "id": "shulker-portal",
   "version": "${version}",
   "name": "Shulker Portal",
-  "description": "",
+  "description": "Fixes inconsistencies with shulkers going through portals from minecarts.",
   "authors": [],
   "contact": {},
   "license": "MIT",

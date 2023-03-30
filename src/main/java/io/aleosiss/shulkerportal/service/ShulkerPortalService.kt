@@ -31,11 +31,11 @@ object ShulkerPortalService {
         return output.multiply(1.0 / num)
     }
 
-    fun processShulkerTeleport(entityMixin: Int, netherPos: Vec3d, overworldPos: Vec3d, errors: List<String>?) {
-        logger.info(String.format("Shulker[%s] was teleported from %s in the nether to %s in the overworld!", entityMixin, netherPos, overworldPos))
+    fun processShulkerTeleport(entityId: Int, netherPos: Vec3d, overworldPos: Vec3d, errors: List<String>?) {
+        logger.info("Shulker[$entityId] was teleported from $netherPos in the nether to $overworldPos in the overworld!")
         val avgPos = getAverageOverworldPos(teleports)
         val avgNetherPos = getAverageNetherPos(teleports)
-        val teleport = Teleport(entityMixin, netherPos, overworldPos)
+        val teleport = Teleport(entityId, netherPos, overworldPos)
         teleports.add(teleport)
         errorMessages.addAll(errors!!)
         if (teleports.size < 20) {
