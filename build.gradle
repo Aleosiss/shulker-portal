@@ -1,8 +1,8 @@
 plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'io.github.juuxel.loom-quiltflower' version '1.7.1'
+    id 'io.github.juuxel.loom-quiltflower' version '1.10.0'
     id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
 }
 
 version = project.minecraft_version+'-'+project.mod_version+'+v'+new Date().format('yyMMdd')
@@ -47,33 +47,21 @@ processResources {
 }
 
 def targetJavaVersion = 17
-tasks.withType(JavaCompile).configureEach {
-    // ensure that the encoding is set to UTF-8, no matter what the system default is
-    // this fixes some edge cases with special characters not displaying correctly
-    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-    // If Javadoc is generated, this must be specified in that task too.
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release = targetJavaVersion
-    }
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    archivesBaseName = project.archives_base_name
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
+// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+// if it is present.
+// If you remove this task, sources will not be generated.
+tasks.register('sourcesJar', Jar) {
+    dependsOn classes
+    classifier = "sources"
+    from sourceSets.main.allSource
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
+    from "LICENSE"
 }
 
 // configure the maven publication
@@ -90,14 +78,13 @@ publishing {
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    // select the repositories you want to publish to
     repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
+        // uncomment to publish to the local maven
+        // mavenLocal()
     }
 }
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "17"
@@ -107,4 +94,7 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "17"
     }
+}
+repositories {
+    mavenCentral()
 }
