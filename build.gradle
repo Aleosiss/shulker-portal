@@ -1,8 +1,8 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'fabric-loom' version '1.5-SNAPSHOT'
     id 'io.github.juuxel.loom-quiltflower' version '1.10.0'
     id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
 }
 
 version = project.minecraft_version+'-'+project.mod_version+'+v'+new Date().format('yyMMdd')
@@ -57,7 +57,7 @@ tasks.withType(JavaCompile) {
 // If you remove this task, sources will not be generated.
 tasks.register('sourcesJar', Jar) {
     dependsOn classes
-    classifier = "sources"
+    archiveClassifier = "sources"
     from sourceSets.main.allSource
 }
 
