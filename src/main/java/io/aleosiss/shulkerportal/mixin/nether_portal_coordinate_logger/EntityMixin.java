@@ -32,6 +32,7 @@ public abstract class EntityMixin {
 		boolean isShulker = ShulkerEntity.class.equals(this.getClass());
 		if(isShulker) {
 			// block pos is sometimes where the shulker was picked up from. Make sure it's from inside the portal
+			// THIS IS THE FIX
 			this.blockPos = portalManager.getPortalPos();
 			this.pos = Vec3d.ofBottomCenter(blockPos);
 		}

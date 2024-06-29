@@ -25,7 +25,7 @@ public abstract class NetherPortalBlockMixin {
     ShulkerPortalLoggingService shulkerPortal = ShulkerPortalLoggingService.INSTANCE;
 
     @Inject(method = "createTeleportTarget", at = @At("RETURN"))
-    private void teleportMixin(ServerWorld origin, Entity entity, BlockPos blockPos, CallbackInfoReturnable<TeleportTarget> cir, @Local(name = "serverWorld") ServerWorld destination) {
+    private void teleportMixin(ServerWorld origin, Entity entity, BlockPos blockPos, CallbackInfoReturnable<TeleportTarget> cir, @Local(ordinal = 1) ServerWorld destination) {
         if(!ShulkerPortalCarpetSettings.enableShulkerPortalDebugging) {
             return;
         }
