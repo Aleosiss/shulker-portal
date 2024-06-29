@@ -9,7 +9,8 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "raid_recruitment.MoveToRaidCenterGoalMixin",
-    "nether_portal_coordinate_logger.EntityMixin"
+    "nether_portal_coordinate_logger.EntityMixin",
+    "nether_portal_coordinate_logger.NetherPortalBlockMixin",
+    "nether_portal_coordinate_logger.ShulkerEntityMixin"
   ]
 }

@@ -1,0 +1,3 @@
+moveToWorld -> teleportTo
+tickPortal -> tickPortalTeleportation
+getTeleportTarget -> this.portalManager.createTeleportTarget(serverWorld, this)

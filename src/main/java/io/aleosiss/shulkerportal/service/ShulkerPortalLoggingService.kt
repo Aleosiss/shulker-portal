@@ -3,11 +3,10 @@ package io.aleosiss.shulkerportal.service
 import net.minecraft.util.math.Vec3d
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.function.Function
 import java.util.stream.Collectors
 
-object ShulkerPortalService {
-    private val logger: Logger = LoggerFactory.getLogger(ShulkerPortalService::class.java)
+object ShulkerPortalLoggingService {
+    private val logger: Logger = LoggerFactory.getLogger(ShulkerPortalLoggingService::class.java)
 
     data class Teleport(val id: Int, val netherPos: Vec3d, val overworldPos: Vec3d)
     var teleports: MutableList<Teleport> = ArrayList()
