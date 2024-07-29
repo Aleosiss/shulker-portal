@@ -124,18 +124,18 @@ object ShulkerPortalCommand {
     ) {
         val message = Text.literal("Shulker[${tp.id}]: ")
             .append("\n")
-            .append(tpCommand(clickableStyleOrigin,"Nether Origin", tp.netherPos))
+            .append(tpCommand(clickableStyleOrigin,"Nether Origin" "minecraft:the_nether", tp.netherPos))
             .append(" | ")
-            .append(tpCommand(clickableStyleDest, "Overworld Dest", tp.overworldPos))
+            .append(tpCommand(clickableStyleDest, "Overworld Dest", "minecraft:overworld", tp.overworldPos))
         Messenger.m(player, message)
     }
 
 
-    private fun tpCommand(style: Style, target: String, pos: Vec3d): Text {
+    private fun tpCommand(style: Style, target: String, worldKey: String, pos: Vec3d): Text {
         val unformatted1 = Text.literal("$target: [")
         val unformatted2 = Text.literal("]")
         val posCommandText = Text.literal("$pos").setStyle(
-            style.withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp @p ${pos.x} ${pos.y} ${pos.z}")))
+            style.withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/execute in ${worldKey} run tp @p ${pos.x} ${pos.y} ${pos.z}")))
         return unformatted1.append(posCommandText).append(unformatted2)
     }
 }
